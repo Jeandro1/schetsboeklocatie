@@ -123,10 +123,32 @@ fill(240, 240, 40);
 stroke(240, 240, 40);
 ellipse(480, 820, 90, 90);
 
-strokeWeight(0);
-fill(230, 100, 30);
-rect(238, 820, 485, 70);
+strokeWeight(1);
 
+int colorMode = RGB;
+
+color orange = color(255, 140, 20, 255);
+color red = color(255, 0, 0, 255);
+
+int left = 238;
+int top = 820;
+int right = 722;
+int bottom = 880;
+
+color currentStroke = orange;
+float step = 0;
+
+for (int i = top; i <= bottom; ++i) {
+
+  step = map(i, top, bottom, 0.0, 1.0);
+
+  currentStroke = lerpColor(orange, red, step, colorMode);
+  stroke(currentStroke);
+
+  line(left, i, right, i);
+}
+
+stroke(0, 0, 0);
 fill(0, 0, 0);
 rect(238, 880, 485, 70);
 
