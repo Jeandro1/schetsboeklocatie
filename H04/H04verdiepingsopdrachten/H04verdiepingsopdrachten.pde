@@ -18,7 +18,7 @@ uren = variabeleTijdSec / uurSec;
 print(uren);
 println(" uren");
 
-println("------");
+println("-----");
 
 
 

@@ -1,13 +1,13 @@
-size(200, 200);
+size(400, 400);
 background(#FFAA00);
 int grijs = #7A7A7A;
-int horizontaal = 100;
-int verticaal = 100;
+int horizontaal = 200;
+int verticaal = 200;
 int rood = #FF0000;
 
 stroke(rood);
 fill(grijs);
-rect(50, 50, horizontaal, verticaal);
+rect(100, 100, horizontaal, verticaal);
 
 
 
