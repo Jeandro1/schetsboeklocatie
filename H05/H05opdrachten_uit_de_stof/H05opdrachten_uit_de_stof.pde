@@ -8,7 +8,7 @@ zin = een + twee + drie + vier;
 
 println(zin);
 
-println("-------");
+println("------");
 
 
 

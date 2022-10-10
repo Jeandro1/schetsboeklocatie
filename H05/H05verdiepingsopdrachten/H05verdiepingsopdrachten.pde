@@ -1,4 +1,4 @@
-int gewicht = 70;
+int gewicht = 72;
 float lengte = 187;
 float bmi = 0;
 String een = "Met een gewicht van ";
