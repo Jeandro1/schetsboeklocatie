@@ -23,7 +23,7 @@ println("-----");
 
 
 
-float eersteCijfer = 7.6;
+float eersteCijfer = 7.5;
 float tweedeCijfer = 4.7;
 float derdeCijfer = 6.0;
 float gemiddelde = 0;

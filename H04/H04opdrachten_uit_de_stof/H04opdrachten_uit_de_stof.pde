@@ -1,4 +1,4 @@
-size(400, 400);
+fullScreen();
 background(#FFAA00);
 int grijs = #7A7A7A;
 int horizontaal = 200;
@@ -7,7 +7,7 @@ int rood = #FF0000;
 
 stroke(rood);
 fill(grijs);
-rect(100, 100, horizontaal, verticaal);
+rect(860, 440, horizontaal, verticaal);
 
 
 
