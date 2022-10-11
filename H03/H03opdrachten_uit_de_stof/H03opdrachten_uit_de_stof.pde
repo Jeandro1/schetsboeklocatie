@@ -1,4 +1,4 @@
-size(1920,1080);
+fullScreen();
 background(#FABF1C);
 
 stroke(255, 0, 0);
