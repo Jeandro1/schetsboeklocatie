@@ -4,97 +4,91 @@ ControlP5 cp;
 int tileSize = 40;
 int xHoofd;
 int yHoofd;
-boolean notLeft = true;
-boolean notUp = true;
-boolean notRight = true;
-boolean notDown = true;
+int direction = 0;
+int leftOffset = 700;
+int topOffset = 280;
+int xMax = 13;
+int yMax = 13;
+int appelSize = 30;
+int xRandom;
+int yRandom;
+int tailLengthCounter = 3;
+int[] tailLength;
+int score;
+int xAppel;
+int yAppel;
 
 void setup(){
-  fullScreen();
-  frameRate(40);
-  xHoofd = 940;
-  yHoofd = 520;
+  size(1920, 1080);
+  frameRate(10);
+  xHoofd = 6;
+  yHoofd = 6;
+  tailLength = new int[tailLengthCounter];
 }
 
 void draw(){
     background(170, 150, 220);
-    int xWaarde = 700;
-    int yWaarde = 280;
-fill(100, 250, 100);
-for(int i = 0; i < 13; i++){
-  for(int j = 0; j < 13; j++){
+    int xWaarde = 0;
+    int yWaarde = 0;
+fill(100, 240, 100);
+for(int i = 0; i < xMax; i++){
+  for(int j = 0; j < yMax; j++){
     strokeWeight(0);
-    rect(xWaarde, yWaarde, 40,40);
-    if((i+j) % 2 == 0){fill(80, 230, 100);}
-    else{fill(100, 250, 100);}
- yWaarde += 40;
+    if((i+j) % 2 == 0){fill(100, 230, 100);}
+    else{fill(100, 240, 100);}
+    rect(leftOffset + xWaarde * tileSize, topOffset + yWaarde * tileSize, tileSize, tileSize);
+ yWaarde ++;
 }
- yWaarde = 280;
- xWaarde += 40;
+ yWaarde = 0;
+ xWaarde ++;
 }
-    strokeWeight(1);
+
     fill(60, 170, 70);
-    rect(xHoofd, yHoofd, tileSize, tileSize);
-  if(keyCode == 37 && xHoofd > 700 && notRight == true){ //left
-  for(int i = 0; i < 40; i++){
+    rect(leftOffset + xHoofd * tileSize, topOffset + yHoofd * tileSize, tileSize, tileSize);
+  if(direction == 3 && xHoofd > 0){ //left
   xHoofd -= 1;
   }
-  notLeft = false;
-  notUp = true;
-  notDown = true;
-  }
-  
-  if(keyCode == 38 && yHoofd > 280 && notDown == true){ //up
-  for(int i = 0; i < 40; i++){
+  if(direction == 4 && yHoofd > 0){ //up
   yHoofd -= 1;
   }
-  notUp = false;
-  notRight = true;
-  notLeft = true;
-  }
-  
-  if(keyCode == 39 && xHoofd < 1180 && notLeft == true){ //right
-  for(int i = 0; i < 40; i++){
+  if(direction == 1 && xHoofd < xMax - 1){ //right
   xHoofd += 1;
   }
-  notRight = false;
-  notUp = true;
-  notDown = true;
+  if(direction == 2 && yHoofd < yMax - 1){ //down
+  yHoofd += 1;
   }
   
-  if(keyCode == 40 && yHoofd < 760 && notUp == true){ //down
-  for(int i = 0; i < 40; i++){ 
-  yHoofd += 1;
+  if(xHoofd == xAppel && yHoofd == yAppel){
+    score++;
   }
-  notDown = false;
-  notRight = true;
-  notLeft = true;
+  fill(0);
+  text(score, leftOffset, topOffset - 20);
+}
+
+void keyPressed(){
+  if(keyCode == 37 && direction != 1){ //left
+    direction = 3;
+  }
+  
+  if(keyCode == 38 && direction != 2){ //up
+    direction = 4;
+  }
+  
+  if(keyCode == 39 && direction != 3){ //right
+    direction = 1;
+  }
+  
+  if(keyCode == 40 && direction != 4){ //down
+    direction = 2;
   }
 
+}
 
-
-  if(keyCode == 37 && xHoofd > 700 && xHoofd < 1180 && notRight == false){ //left
-  for(int i = 0; i < 40; i++){
-  xHoofd += 1;
-  }
-  notRight = false;
-  }
-  if(keyCode == 38 && yHoofd > 280 && yHoofd < 760 && notDown == false){ //up
-  for(int i = 0; i < 40; i++){ 
-  yHoofd += 1;
-  }
-  notDown = false;
-  }
-  if(keyCode == 39 && xHoofd < 1180 && xHoofd > 700 && notLeft == false){ //right
-  for(int i = 0; i < 40; i++){
-  xHoofd -= 1;
-  }
-  notLeft = false;
-  }
-  if(keyCode == 40 && yHoofd < 760 && yHoofd > 280 && notUp == false){ //down
-  for(int i = 0; i < 40; i++){
-  yHoofd -= 1;
-  }
-  notUp = false;
-  }
+void Appel(){
+  xRandom = round(random(1, 13));
+  yRandom = round(random(1, 13));
+  fill(255, 0, 0);
+  xAppel = leftOffset - (tileSize / 2) + (xRandom * tileSize);
+  yAppel = topOffset - (tileSize / 2) + (yRandom * tileSize);
+  ellipse(xAppel, yAppel, appelSize, appelSize);
 }
