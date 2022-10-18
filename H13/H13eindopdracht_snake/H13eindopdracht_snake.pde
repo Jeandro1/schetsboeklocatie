@@ -19,14 +19,19 @@ int tileSize = 40;
 int appleSize = 30;
 
 //More
-ArrayList<Integer> xTailList = new ArrayList<Integer>(), yTailList = new ArrayList<Integer>();
+ArrayList<Integer> xTail = new ArrayList<Integer>(), yTail = new ArrayList<Integer>();
 int score;
+int spd;
 boolean gameOver = false;
 boolean youWon = false;
 
 void setup() {
   size(1920, 1080);
   frameRate(8);
+  xTail.add(xHead);
+  yTail.add(yHead);
+  xTail.add(xHead);
+  yTail.add(yHead);
 }
 
 void draw() {
@@ -44,6 +49,16 @@ void draw() {
  Apple();
  Score();
 
+for(int i = 0; i < xTail.size(); i++){
+  xTail.add(xHead);
+  yTail.add(yHead);
+  xTail.set(i + 1, xTail.get(i));
+  yTail.set(i + 1, yTail.get(i));
+  xTail.remove(0);
+  yTail.remove(0);
+  fill(60, 170, 70);
+  rect(leftOffset + xTail.get(i) * tileSize, topOffset + yTail.get(i) * tileSize, tileSize, tileSize);
+}
 }
 
 void keyPressed(){
@@ -87,12 +102,11 @@ void AppleEaten(){
   score++;
   xRandom = round(random(1, 13));
   yRandom = round(random(1, 13));
-/* if((xRandom == xTail && yRandom == yTail) || (xRandom == xHead && yRandom == yHead)){
-  xRandom = round(random(1, 13));
-  yRandom = round(random(1, 13)); 
- }*/
+  xTail.add(xHead);
+  yTail.add(yHead);
  }
-}
+ }
+
 
 void Score(){
  fill(0);
