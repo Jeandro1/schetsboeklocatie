@@ -1,94 +1,100 @@
 import controlP5.*;
 ControlP5 cp;
 
-int tileSize = 40;
-int xHoofd;
-int yHoofd;
-int direction = 0;
-int leftOffset = 700;
-int topOffset = 280;
-int xMax = 13;
-int yMax = 13;
-int appelSize = 30;
-int xRandom;
-int yRandom;
-int tailLengthCounter = 3;
-int[] tailLength;
-int score;
-int xAppel;
-int yAppel;
+//x, y
+int xHead = 3, yHead = 6;
 
-void setup(){
+int xMax = 13, yMax = 13;
+
+int xApple, yApple;
+
+int xRandom = 10, yRandom = 7;
+
+int leftOffset = 700, topOffset = 280;
+
+int dir = 0;
+
+//size
+int tileSize = 40;
+int appleSize = 30;
+
+//More
+ArrayList<Integer> xTailList = new ArrayList<Integer>(), yTailList = new ArrayList<Integer>();
+int score;
+boolean gameOver = false;
+boolean youWon = false;
+
+void setup() {
   size(1920, 1080);
-  frameRate(10);
-  xHoofd = 6;
-  yHoofd = 6;
-  tailLength = new int[tailLengthCounter];
+  frameRate(8);
 }
 
-void draw(){
-    background(170, 150, 220);
-    int xWaarde = 0;
-    int yWaarde = 0;
-fill(100, 240, 100);
-for(int i = 0; i < xMax; i++){
-  for(int j = 0; j < yMax; j++){
-    strokeWeight(0);
-    if((i+j) % 2 == 0){fill(100, 230, 100);}
-    else{fill(100, 240, 100);}
-    rect(leftOffset + xWaarde * tileSize, topOffset + yWaarde * tileSize, tileSize, tileSize);
+void draw() {
+ background(170, 150, 220);
+ 
+ Field();
+ Head();
+
+ if(dir == 1 && xHead < xMax - 1) {xHead += 1;} //Right
+ if(dir == 2 && yHead < yMax - 1) {yHead += 1;} //Down
+ if(dir == 3 && xHead > 0) {xHead -= 1;} //Left
+ if(dir == 4 && yHead > 0) {yHead -= 1;} //Up
+
+ AppleEaten();
+ Apple();
+ Score();
+
+}
+
+void keyPressed(){
+ if(keyCode == 39 && dir != 3) {dir = 1;}
+ if(keyCode == 40 && dir != 4) {dir = 2;}
+ if(keyCode == 37 && dir != 1) {dir = 3;}
+ if(keyCode == 38 && dir != 2) {dir = 4;}
+}
+
+void Field(){
+ int xWaarde = 0;
+ int yWaarde = 0;
+ fill(100, 240, 100);
+ for(int i = 0; i < xMax; i++){
+ for(int j = 0; j < yMax; j++){
+ strokeWeight(0);
+ if((i+j) % 2 == 0) {fill(100, 230, 100);} 
+ else {fill(100, 240, 100);}
+ rect(leftOffset + xWaarde * tileSize, topOffset + yWaarde * tileSize, tileSize, tileSize);
  yWaarde ++;
 }
  yWaarde = 0;
  xWaarde ++;
+ }
 }
 
-    fill(60, 170, 70);
-    rect(leftOffset + xHoofd * tileSize, topOffset + yHoofd * tileSize, tileSize, tileSize);
-  if(direction == 3 && xHoofd > 0){ //left
-  xHoofd -= 1;
-  }
-  if(direction == 4 && yHoofd > 0){ //up
-  yHoofd -= 1;
-  }
-  if(direction == 1 && xHoofd < xMax - 1){ //right
-  xHoofd += 1;
-  }
-  if(direction == 2 && yHoofd < yMax - 1){ //down
-  yHoofd += 1;
-  }
-  
-  if(xHoofd == xAppel && yHoofd == yAppel){
-    score++;
-  }
-  fill(0);
-  text(score, leftOffset, topOffset - 20);
+void Head(){
+ fill(60, 170, 70);
+ rect(leftOffset + xHead * tileSize, topOffset + yHead * tileSize, tileSize, tileSize);
 }
 
-void keyPressed(){
-  if(keyCode == 37 && direction != 1){ //left
-    direction = 3;
-  }
-  
-  if(keyCode == 38 && direction != 2){ //up
-    direction = 4;
-  }
-  
-  if(keyCode == 39 && direction != 3){ //right
-    direction = 1;
-  }
-  
-  if(keyCode == 40 && direction != 4){ //down
-    direction = 2;
-  }
-
+void Apple() {
+ xApple = leftOffset - (tileSize / 2) + (xRandom * tileSize);
+ yApple = topOffset - (tileSize / 2) + (yRandom * tileSize);
+ fill(255, 0, 0);
+ ellipse(xApple, yApple, appleSize, appleSize);
 }
 
-void Appel(){
+void AppleEaten(){
+ if(xHead == xRandom - 1 && yHead == yRandom - 1){
+  score++;
   xRandom = round(random(1, 13));
   yRandom = round(random(1, 13));
-  fill(255, 0, 0);
-  xAppel = leftOffset - (tileSize / 2) + (xRandom * tileSize);
-  yAppel = topOffset - (tileSize / 2) + (yRandom * tileSize);
-  ellipse(xAppel, yAppel, appelSize, appelSize);
+/* if((xRandom == xTail && yRandom == yTail) || (xRandom == xHead && yRandom == yHead)){
+  xRandom = round(random(1, 13));
+  yRandom = round(random(1, 13)); 
+ }*/
+ }
+}
+
+void Score(){
+ fill(0);
+ text(score, leftOffset, topOffset - 20);
 }
