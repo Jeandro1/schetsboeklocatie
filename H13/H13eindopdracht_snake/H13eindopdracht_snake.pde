@@ -21,13 +21,15 @@ int appleSize = 30;
 //More
 ArrayList<Integer> xTail = new ArrayList<Integer>(), yTail = new ArrayList<Integer>();
 int score;
-int spd;
 boolean gameOver = false;
 boolean youWon = false;
+Button restart;
 
-void setup() {
+void setup(){
   size(1920, 1080);
   frameRate(8);
+  xTail.add(xHead);
+  yTail.add(yHead);
   xTail.add(xHead);
   yTail.add(yHead);
   xTail.add(xHead);
@@ -38,15 +40,38 @@ void draw() {
  background(170, 150, 220);
  
  Field();
- Head();
+ 
+ if(score == 166){
+   youWon = true;
+   fill(120, 240, 220);
+   stroke(0);
+   strokeWeight(2);
+   rect(leftOffset + 60, topOffset + 60, 400, 400);
+   fill(0);
+   textAlign(CENTER);
+   textSize(50);
+   text("You won!", leftOffset + 260, topOffset + 200);
+   cp = new ControlP5(this);
+   restart = cp.addButton("Restart")
+      .setPosition(leftOffset + 160, topOffset + 350)
+      .setColorValueLabel(color(0,0,0))
+      .setColorLabel(color(0,0,0))
+      .setColorActive(color(230,230,230))
+      .setColorForeground(color(140,140,140))
+      .setColorBackground(color(230,230,230))
+      .setSize(200,40);
+ }
+
+if(gameOver == false && youWon == false){
 
  if(dir == 1 && xHead < xMax - 1) {xHead += 1;} //Right
  if(dir == 2 && yHead < yMax - 1) {yHead += 1;} //Down
  if(dir == 3 && xHead > 0) {xHead -= 1;} //Left
  if(dir == 4 && yHead > 0) {yHead -= 1;} //Up
 
- AppleEaten();
+ Head();
  Apple();
+ AppleEaten();
  Score();
 
 for(int i = 0; i < xTail.size(); i++){
@@ -54,10 +79,13 @@ for(int i = 0; i < xTail.size(); i++){
   yTail.add(yHead);
   xTail.set(i + 1, xTail.get(i));
   yTail.set(i + 1, yTail.get(i));
+  fill(60, 170, 70);
+  rect(leftOffset + xTail.get(i) * tileSize, topOffset + yTail.get(i) * tileSize, tileSize, tileSize);
   xTail.remove(0);
   yTail.remove(0);
   fill(60, 170, 70);
   rect(leftOffset + xTail.get(i) * tileSize, topOffset + yTail.get(i) * tileSize, tileSize, tileSize);
+}
 }
 }
 
@@ -111,4 +139,14 @@ void AppleEaten(){
 void Score(){
  fill(0);
  text(score, leftOffset, topOffset - 20);
+}
+
+void Restart(){
+  score = 0;
+  youWon = false;
+  xHead = 3;
+  yHead = 6;
+  xRandom = 10;
+  yRandom = 7;
+  dir = 0;
 }
