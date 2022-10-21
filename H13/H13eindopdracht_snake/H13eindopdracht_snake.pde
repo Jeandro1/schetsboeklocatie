@@ -24,7 +24,7 @@ boolean youWon = false;
 
 
 void setup(){
-  size(1920, 1080);
+  fullScreen();
   frameRate(7);
   xTail.add(xHead);
   yTail.add(yHead);
