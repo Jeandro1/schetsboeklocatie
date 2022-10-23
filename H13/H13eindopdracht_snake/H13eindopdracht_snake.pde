@@ -131,7 +131,7 @@ void AppleEaten(){
   xRandom = round(random(1, 13));
   yRandom = round(random(1, 13));
       for(int i = 0; i < xTail.size(); i++){
-      if((xHead == xRandom || xTail.get(i) == xRandom) && (yHead == yRandom || yTail.get(i) == yRandom)){
+      if((xHead == xRandom - 1 && yHead == yRandom - 1) || (xTail.get(i) == xRandom - 1 && yTail.get(i) == yRandom - 1)){
           xRandom = round(random(1, 13));
           yRandom = round(random(1, 13));
       }
