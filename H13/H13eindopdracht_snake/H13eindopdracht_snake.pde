@@ -1,3 +1,9 @@
+import processing.sound.*;
+SoundFile Music;
+SoundFile Recieve;
+SoundFile Win;
+SoundFile Dead;
+
 //x, y
 int xHead = 3, yHead = 6;
 
@@ -20,6 +26,7 @@ ArrayList<Integer> xTail = new ArrayList<Integer>(), yTail = new ArrayList<Integ
 int score;
 boolean gameOver = false;
 boolean youWon = false;
+boolean won = false;
 
 
 
@@ -28,6 +35,10 @@ void setup(){
   frameRate(7);
   xTail.add(xHead);
   yTail.add(yHead);
+  Music = new SoundFile(this, "sounds/Music.mp3");
+  Recieve = new SoundFile(this, "sounds/Recieve.mp3");
+  Win = new SoundFile(this, "sounds/Win.mp3");
+  Dead = new SoundFile(this, "sounds/Dead.mp3");
 }
 
 
@@ -56,6 +67,13 @@ if(gameOver == false && youWon == false){
  Tail();
  Head();
 
+if(!Music.isPlaying() && !Win.isPlaying() && dir != 0){
+  Music.amp(0.5);
+  Music.play();
+}
+if(score == 168){
+  won = true;
+}
 }
 }
 
@@ -130,6 +148,9 @@ void AppleEaten(){
   score++;
   xRandom = round(random(1, 13));
   yRandom = round(random(1, 13));
+  if(!Recieve.isPlaying()){
+  Recieve.play();
+  }
       for(int i = 0; i < xTail.size(); i++){
       if((xHead == xRandom - 1 && yHead == yRandom - 1) || (xTail.get(i) == xRandom - 1 && yTail.get(i) == yRandom - 1)){
           xRandom = round(random(1, 13));
@@ -155,17 +176,6 @@ void Reset(){
   score = 0;
   youWon = false;
   gameOver = false;
-  xHead = 3;
-  yHead = 6;
-  xRandom = 10;
-  yRandom = 7;
-  dir = 0;
-   for(int j = xTail.size()-1; j>= 0; j--) {
-    xTail.remove(j);
-     yTail.remove(j);
-   }
-  xTail.add(xHead);
-  yTail.add(yHead);
 }
 
 
@@ -183,7 +193,26 @@ void YouWon(){
    text("You won!", leftOffset + 260, topOffset + 200);
    textSize(30);
    text("Press spacebar to play again!", leftOffset + 260, topOffset + 350);
+   Music.stop();
+  xHead = 3;
+  yHead = 6;
+  xRandom = 10;
+  yRandom = 7;
+  dir = 0;
+   for(int j = xTail.size()-1; j>= 0; j--) {
+    xTail.remove(j);
+     yTail.remove(j);
+   }
+  xTail.add(xHead);
+  yTail.add(yHead);
  }
+  if(won == true){
+   if(!Win.isPlaying()){
+   Win.play();
+   won = false;
+   }
+
+  }
 }
 
 
@@ -192,6 +221,7 @@ void GameOver(){
     for(int i = 1; i < xTail.size(); i++){
       if(xHead == xTail.get(i) && yHead == yTail.get(i)){
         gameOver = true;
+        Dead.play();
       }
     }
     if(gameOver == true){
@@ -207,5 +237,17 @@ void GameOver(){
       text("score: " + score, leftOffset + 260, topOffset + 250);
       textSize(30);
       text("Press spacebar to play again!", leftOffset + 260, topOffset + 350);
+      Music.stop();
+        xHead = 3;
+      yHead = 6;
+      xRandom = 10;
+      yRandom = 7;
+      dir = 0;
+      for(int j = xTail.size()-1; j>= 0; j--) {
+       xTail.remove(j);
+       yTail.remove(j);
+      }
+      xTail.add(xHead);
+      yTail.add(yHead);
 }
 }
