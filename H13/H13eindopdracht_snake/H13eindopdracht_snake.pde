@@ -132,9 +132,8 @@ void AppleEaten(){
   score++;
   xRandom = round(random(1, 13));
   yRandom = round(random(1, 13));
-  if(!Recieve.isPlaying()){
+  Recieve.stop();
   Recieve.play();
-  }
       for(int i = 0; i < xTail.size(); i++){
       if((xHead == xRandom - 1 && yHead == yRandom - 1) || (xTail.get(i) == xRandom - 1 && yTail.get(i) == yRandom - 1)){
           xRandom = round(random(1, 13));
