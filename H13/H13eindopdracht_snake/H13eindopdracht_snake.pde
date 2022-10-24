@@ -1,32 +1,16 @@
 import processing.sound.*;
-SoundFile Music;
-SoundFile Recieve;
-SoundFile Win;
-SoundFile Dead;
+SoundFile Music, Recieve, Win, Dead;
 
 //x, y
-int xHead = 3, yHead = 6;
-
-int xMax = 13, yMax = 13;
-
-int xApple, yApple;
-
-int xRandom = 10, yRandom = 7;
-
-int leftOffset = 700, topOffset = 280;
-
-int dir = 0;
+int xHead = 3, yHead = 6, xMax = 13, yMax = 13, xRandom = 10, yRandom = 7, leftOffset = 700, topOffset = 280, dir = 0, xApple, yApple;
 
 //size
-int tileSize = 40;
-int appleSize = 30;
+int tileSize = 40, appleSize = 30;
 
 //More
 ArrayList<Integer> xTail = new ArrayList<Integer>(), yTail = new ArrayList<Integer>();
 int score;
-boolean gameOver = false;
-boolean youWon = false;
-boolean won = false;
+boolean gameOver = false, youWon = false, won = false;
 
 
 
