@@ -11,46 +11,26 @@ int tileSize = 40, appleSize = 30;
 ArrayList<Integer> xTail = new ArrayList<Integer>(), yTail = new ArrayList<Integer>();
 <<<<<<< Updated upstream
 int score = 0, gameState = 0;
-=======
-int score, gameState = 0, targetFPS = 1;
-float frameCounter = 1, oldTime = 0, nowTime = 0;
->>>>>>> Stashed changes
 boolean gameOver = false, youWon = false, won = false;
 
 
 
-<<<<<<< Updated upstream
 void setup() {
   fullScreen();
   frameRate(8);
   xTail.add(xHead);
   yTail.add(yHead);
-=======
-void setup(){
-  //fullScreen();
-  size(720, 200);
-  frameRate(300);
- // xTail.add(xHead);
- // yTail.add(yHead);
->>>>>>> Stashed changes
   xHead = xMax / 4;
   yHead = yMax / 2;
   xRandom = xMax / 4 * 3;
   yRandom = yMax / 2;
-<<<<<<< Updated upstream
   thread("Loading");
-=======
-  thread("loadInit");
-  surface.setResizable(true);
->>>>>>> Stashed changes
 }
 
 
 
 void draw() {
-<<<<<<< Updated upstream
-
-  if (gameState == 1) {
+if (gameState == 1) {
     background(170, 150, 220);
     textAlign(CENTER);
     textSize(100);
@@ -86,42 +66,6 @@ void draw() {
       Score();
 
       if ((xHead == xMax) || (xHead == -1) || (yHead == yMax) || (yHead == -1)) {
-=======
- 
- if(gameState == 1){
- if(dir != 0){
-   nowTime = millis();
-   frameCounter += ((nowTime - oldTime)/1000) * targetFPS;
-   oldTime = millis();
- }
- 
- if(dir == 0){frameCounter = 1;}
- 
- if(frameCounter >= 1){
- frameCounter--;
- println(frameCounter);
- background(170, 150, 220);
- textAlign(CENTER);
- textSize(100);
- fill(0);
- text("Snake", leftOffset + 260, topOffset - 100);
- 
- Field();
- YouWon();
- GameOver();
-
-if(gameOver == false && youWon == false){
-  
- if(dir == 1 && xHead < xMax) {xHead += 1;} //Right
- if(dir == 2 && yHead < yMax) {yHead += 1;} //Down
- if(dir == 3 && xHead > -1) {xHead -= 1;} //Left
- if(dir == 4 && yHead > -1) {yHead -= 1;} //Up
- 
- Apple();
- AppleEaten();
- Score();
- if((xHead == xMax) || (xHead == -1) || (yHead == yMax) || (yHead == -1)){
->>>>>>> Stashed changes
         gameOver = true;
         Music.stop();
         Dead.play();
@@ -134,8 +78,6 @@ if(gameOver == false && youWon == false){
         Music.stop();
       }
 
-
-<<<<<<< Updated upstream
       if (score == (xMax * yMax) - 1) {
         won = true;
       }
@@ -148,19 +90,6 @@ if(gameOver == false && youWon == false){
     textAlign(CENTER);
     text("Loading...", width/2, height/2);
   }
-=======
-if(!Music.isPlaying() && !Win.isPlaying() && dir != 0){
-  Music.amp(0.5);
-  Music.play();
-}
-if(score == 168){
-  won = true;
-}
-}
- }
-}else { background(170, 150, 220); Field();
-}
->>>>>>> Stashed changes
 }
 
 
