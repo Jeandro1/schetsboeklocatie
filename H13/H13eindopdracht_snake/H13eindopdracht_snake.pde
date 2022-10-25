@@ -2,7 +2,7 @@ import processing.sound.*;
 SoundFile Music, Recieve, Win, Dead;
 
 //x, y
-int xHead = 3, yHead = 6, xMax = 13, yMax = 13, xRandom = 10, yRandom = 7, leftOffset = 700, topOffset = 280, dir = 0, xApple, yApple;
+int xHead, yHead, xMax = 13, yMax = 13, xRandom, yRandom, leftOffset = 700, topOffset = 280, dir = 0, xApple, yApple;
 
 //size
 int tileSize = 40, appleSize = 30;
@@ -16,9 +16,13 @@ boolean gameOver = false, youWon = false, won = false;
 
 void setup(){
   fullScreen();
-  frameRate(7);
-  xTail.add(xHead);
-  yTail.add(yHead);
+  frameRate(8);
+ // xTail.add(xHead);
+ // yTail.add(yHead);
+  xHead = xMax / 4;
+  yHead = yMax / 2;
+  xRandom = xMax / 4 * 3;
+  yRandom = yMax / 2;
   Music = new SoundFile(this, "sounds/Music.mp3");
   Recieve = new SoundFile(this, "sounds/Recieve.mp3");
   Win = new SoundFile(this, "sounds/Win.mp3");
@@ -40,16 +44,25 @@ void draw() {
 
 if(gameOver == false && youWon == false){
   
- if(dir == 1 && xHead < xMax - 1) {xHead += 1;} //Right
- if(dir == 2 && yHead < yMax - 1) {yHead += 1;} //Down
- if(dir == 3 && xHead > 0) {xHead -= 1;} //Left
- if(dir == 4 && yHead > 0) {yHead -= 1;} //Up
+ if(dir == 1 && xHead < xMax) {xHead += 1;} //Right
+ if(dir == 2 && yHead < yMax) {yHead += 1;} //Down
+ if(dir == 3 && xHead > -1) {xHead -= 1;} //Left
+ if(dir == 4 && yHead > -1) {yHead -= 1;} //Up
  
  Apple();
  AppleEaten();
  Score();
- Tail();
+ if((xHead == xMax) || (xHead == -1) || (yHead == yMax) || (yHead == -1)){
+        gameOver = true;
+        Music.stop();
+        Dead.play();
+ }else{
  Head();
+ Tail();
+ }
+
+
+
 
 if(!Music.isPlaying() && !Win.isPlaying() && dir != 0){
   Music.amp(0.5);
@@ -64,18 +77,21 @@ if(score == 168){
 
 
 void keyPressed(){
- if(keyCode == 39 && dir != 3) {dir = 1;}
- if(keyCode == 40 && dir != 4) {dir = 2;}
- if(keyCode == 37 && dir != 1) {dir = 3;}
- if(keyCode == 38 && dir != 2) {dir = 4;}
+ if(key == 'd' && dir != 3) {dir = 1;}
+ if(key == 's' && dir != 4) {dir = 2;}
+ if(key == 'a' && dir != 1) {dir = 3;}
+ if(key == 'w' && dir != 2) {dir = 4;}
+// if(keyCode == 39 && dir != 3) {dir = 1;}
+// if(keyCode == 40 && dir != 4) {dir = 2;}
+// if(keyCode == 37 && dir != 1) {dir = 3;}
+// if(keyCode == 38 && dir != 2) {dir = 4;}
  if(key == ' ' && (youWon == true || gameOver == true)){Reset();}
 }
 
 
 
 void Field(){
- int xWaarde = 0;
- int yWaarde = 0;
+ int xWaarde = 0, yWaarde = 0;
  fill(100, 240, 100);
  for(int i = 0; i < xMax; i++){
  for(int j = 0; j < yMax; j++){
@@ -100,27 +116,27 @@ void Head(){
 
 
 void Tail(){
-  for (int i = (xTail.size() - 1); i >= 0; i--) {
-      if (i == 0) {
-        xTail.set(i, xHead);
-        yTail.set(i, yHead);
-      } else {
-        xTail.set(i, xTail.get(i-1));
-        yTail.set(i, yTail.get(i-1));
-      }
-
-      fill(60, 170, 70);
-      rect(leftOffset + xTail.get(i) * tileSize, topOffset + yTail.get(i) * tileSize, tileSize, tileSize);
-      fill(60, 170, 70);
-      rect(leftOffset + xTail.get(i) * tileSize, topOffset + yTail.get(i) * tileSize, tileSize, tileSize);
-    }
+ for (int i = (xTail.size() - 1); i >= 0; i--){
+   if (i == 0){
+   xTail.set(i, xHead);
+   yTail.set(i, yHead);
+  }
+   else{
+   xTail.set(i, xTail.get(i-1));
+   yTail.set(i, yTail.get(i-1));
+  }
+  fill(60, 170, 70);
+//  stroke(60, 170, 70);
+  rect(leftOffset + xTail.get(i) * tileSize, topOffset + yTail.get(i) * tileSize, tileSize, tileSize);
+  rect(leftOffset + xTail.get(i) * tileSize, topOffset + yTail.get(i) * tileSize, tileSize, tileSize);
+ }
 }
 
 
 
 void Apple() {
- xApple = leftOffset - (tileSize / 2) + (xRandom * tileSize);
- yApple = topOffset - (tileSize / 2) + (yRandom * tileSize);
+ xApple = leftOffset + (tileSize / 2) + (xRandom * tileSize);
+ yApple = topOffset + (tileSize / 2) + (yRandom * tileSize);
  fill(255, 0, 0);
  ellipse(xApple, yApple, appleSize, appleSize);
 }
@@ -128,16 +144,21 @@ void Apple() {
 
 
 void AppleEaten(){
- if(xHead == xRandom - 1 && yHead == yRandom - 1){
+ if(xHead == xRandom && yHead == yRandom){
   score++;
-  xRandom = round(random(1, 13));
-  yRandom = round(random(1, 13));
+  xRandom = floor(random(xMax));
+  yRandom = floor(random(yMax));
   Recieve.stop();
   Recieve.play();
+  boolean unique = false;
+  while(!unique){
+    unique = true;
+    xRandom = floor(random(xMax));
+    yRandom = floor(random(yMax));
       for(int i = 0; i < xTail.size(); i++){
-      if((xHead == xRandom - 1 && yHead == yRandom - 1) || (xTail.get(i) == xRandom - 1 && yTail.get(i) == yRandom - 1)){
-          xRandom = round(random(1, 13));
-          yRandom = round(random(1, 13));
+      if((xHead == xRandom && yHead == yRandom) || (xTail.get(i) == xRandom && yTail.get(i) == yRandom)){
+          unique = false;
+      }
       }
     }
   xTail.add(xHead);
@@ -164,7 +185,7 @@ void Reset(){
 
 
 void YouWon(){
-   if(score == 168){
+   if(score == (xMax * yMax) - 1){
    youWon = true;
    fill(120, 240, 220);
    stroke(0);
@@ -177,10 +198,10 @@ void YouWon(){
    textSize(30);
    text("Press spacebar to play again!", leftOffset + 260, topOffset + 350);
    Music.stop();
-  xHead = 3;
-  yHead = 6;
-  xRandom = 10;
-  yRandom = 7;
+   xHead = xMax / 4;
+   yHead = yMax / 2;
+   xRandom = xMax / 4 * 3;
+   yRandom = yMax / 2;
   dir = 0;
    for(int j = xTail.size()-1; j>= 0; j--) {
     xTail.remove(j);
@@ -202,8 +223,9 @@ void YouWon(){
 
 void GameOver(){
     for(int i = 1; i < xTail.size(); i++){
-      if(xHead == xTail.get(i) && yHead == yTail.get(i)){
+      if((xHead == xTail.get(i) && yHead == yTail.get(i))){
         gameOver = true;
+        Music.stop();
         Dead.play();
       }
     }
@@ -220,11 +242,10 @@ void GameOver(){
       text("score: " + score, leftOffset + 260, topOffset + 250);
       textSize(30);
       text("Press spacebar to play again!", leftOffset + 260, topOffset + 350);
-      Music.stop();
-        xHead = 3;
-      yHead = 6;
-      xRandom = 10;
-      yRandom = 7;
+      xHead = xMax / 4;
+      yHead = yMax / 2;
+      xRandom = xMax / 4 * 3;
+      yRandom = yMax / 2;
       dir = 0;
       for(int j = xTail.size()-1; j>= 0; j--) {
        xTail.remove(j);
