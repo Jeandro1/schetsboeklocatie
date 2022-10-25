@@ -9,7 +9,6 @@ int tileSize = 40, appleSize = 30;
 
 //More
 ArrayList<Integer> xTail = new ArrayList<Integer>(), yTail = new ArrayList<Integer>();
-<<<<<<< Updated upstream
 int score = 0, gameState = 0;
 boolean gameOver = false, youWon = false, won = false;
 
