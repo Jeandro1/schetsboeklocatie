@@ -16,7 +16,7 @@ boolean gameOver = false, youWon = false, won = false;
 
 void setup() {
   fullScreen();
-  frameRate(8);
+  frameRate(7);
   xTail.add(xHead);
   yTail.add(yHead);
   xHead = xMax / 4;
@@ -95,6 +95,18 @@ if (gameState == 1) {
 
 
 void keyPressed() {
+  if (key == 'd' && dir != 3) {
+    dir = 1;
+  }
+  if (key == 's' && dir != 4) {
+    dir = 2;
+  }
+  if (key == 'a' && dir != 1) {
+    dir = 3;
+  }
+  if (key == 'w' && dir != 2) {
+    dir = 4;
+  }
   if (keyCode == 39 && dir != 3) {
     dir = 1;
   }
